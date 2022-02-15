@@ -5,7 +5,7 @@ const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
 //Function HTML
-const generateHTML = require('./src/generate.js');
+const generateHTML = require('./src/generate');
 
 //Function Inquirer
 const teamArray =[];
@@ -37,12 +37,12 @@ const teamMngr = () => {
             {
                 type: 'input',
                 message: "Enter manager's office number",
-                name: 'officeNum',
+                name: 'officeNumber',
             },
         ])
     )
     .then(data => {
-        const manager= new Manager (data.name, data.id, data.email, data.officeNum);
+        const manager= new Manager (data.name, data.id, data.email, data.officeNumber);
         teamArray.push(manager);
     })
 }
@@ -63,60 +63,65 @@ const addMember = () => {
                 type: 'input',
                 message: "Enter name",
                 name: 'name',
+                when: (input) => input.menu === "add Engineer" || input.menu === "add intern",
             },
             {
                 type: 'input',
                 message: "Enter email",
                 name: 'email',
+                when: (input) => input.menu === "add Engineer" || input.menu === "add intern",
             },
             {
                 type: 'input',
                 message: "Enter employee id",
                 name: 'id',
+                when: (input) => input.menu === "add Engineer" || input.menu === "add intern",
             },
             {
                 type: 'input',
                 message: "Enter engineer's Github username",
-                name: 'username',
-                when: (input) => input.select === "add Engineer",
+                name: 'github',
+                when: (input) => input.menu === "add Engineer",
             },
             //if select intern option (name, email, id, and school)
             {
                 type: 'input',
                 message: "Enter intern's university/school",
                 name: 'school',
-                when: (input) => input.select === "add Intern",
+                when: (input) => input.menu === "add Intern",
             },
-            {
-                type: 'list',
-                message: "Would you like to add another employee, or finish building your team?",
-                name: 'menu',
-                choices:['add Engineer', 'add Intern', 'finish building team']
-            },
+            // {
+            //     type: 'list',
+            //     message: "Would you like to add another employee, or finish building your team?",
+            //     name: 'menu',
+            //     choices:['add Engineer', 'add Intern', 'finish building team']
+            // },
         ])
     )
     //When select to finish team
     .then(
        data => {
+           console.log (data.menu)
             if (data.menu === 'add Engineer'){
-                const engineer = new Engineer (data.name, data.id, data.email, data.username)
+                const engineer = new Engineer (data.name, data.id, data.email, data.github)
                 teamArray.push(engineer)
-                return addMember();
+                addMember();
             } else if (data.menu === 'add Intern'){
                 const intern = new Intern (data.name, data.id, data.email, data.school)
                 teamArray.push(intern)
-                return addMember();
-            } else return teamArray; 
+                addMember();
+            } else {
+                console.log(teamArray);
+                genFile(generateHTML(teamArray));
+            }
         }
     )
 };
 
-const genFile = promptData => {
-//addMember()
-//.then((promptData) =>{
+const genFile = data => {
 //  console.log(promptData);  
-//})
-    fs.writeFile('./dist/index.html', promptData,
+
+    fs.writeFile('./dist/index.html', data,
     err => {
         if (err) {
             console.log(err);
@@ -126,12 +131,13 @@ const genFile = promptData => {
 
 teamMngr()
 .then(addMember)
-.then(teamArray =>{
-    return generateHTML(teamArray);
-})
-.then(html =>{
-    return genFile(html);
-})
+// .then(teamArray => {
+//     console.log(teamArray)
+//     return generateHTML(teamArray);
+// })
+// .then(htmlFile =>{
+//     return genFile(htmlFile);
+// })
 .catch(err => {
-    console.logI(err);
+    console.log (err);
 })

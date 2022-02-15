@@ -8,14 +8,19 @@ const addManager = function (manager) {
         <div class = "card-header">
             <h3> ${manager.name} </h3>
          <h4> Manager </h4>
-         <i <span class="iconify" data-icon="foundation:torso-business"></span>
+         <i> <span class="iconify" id="posit" data-icon="foundation:torso-business"></span>
          </i>
         </div>
 
     <div class ="card-body">
         <p class="id"> ID: ${manager.id} </p>
-        <p class="email"> Email: ${manager.email} </p>
-        <p class="officenum"> Office Number: ${manager.officeNum} </p>
+        <p class="email"> 
+            <a href="mailto: ${manager.email}">
+                <span class="iconify" id="email" data-icon="dashicons:email"></span>
+                 ${manager.email}
+            </a>
+        </p>
+        <p class="officenum"> Office Number: ${manager.officeNumber} </p>
     </div>
     </div>
     </div>`;
@@ -31,13 +36,18 @@ const addEngineer = function (engineer) {
     <div class = "card-header">
         <h3> ${engineer.name} </h3>
         <h4> Engineer </h4> 
-        <i <span class="iconify" data-icon="ic:twotone-engineering"></span>
+        <i> <span class="iconify" id="posit" data-icon="ic:twotone-engineering"></span>
         </i>
     </div>
 
     <div class ="card-body">
         <p class="id"> ID: ${engineer.id} </p>
-        <p class="email"> Email: ${engineer.email} </p>
+        <p class="email"> 
+            <a href="mailto: ${engineer.email}">
+                <span class="iconify" id="email" data-icon="dashicons:email"></span>
+               ${engineer.email} 
+            </a> 
+        </p>
         <p class="github"> GitHub: <a target='blank' href="https://github.com/${engineer.github}">${engineer.github}</a> </p>
     </div>
     </div>
@@ -54,13 +64,18 @@ const addIntern = function(intern){
     <div class = "card-header">
         <h3> ${intern.name} </h3>
         <h4> Intern </h4> 
-        <i <span class="iconify" data-icon="ph:student-bold"></span>
+        <i> <span class="iconify" id="posit" data-icon="ph:student-bold"></span>
         </i>
     </div>
 
     <div class ="card-body">
         <p class="id"> ID: ${intern.id} </p>
-        <p class="email"> Email: ${intern.email} </p>
+        <p class="email"> 
+            <a href="mailto: ${intern.email}">
+                <span class="iconify" id="email" data-icon="dashicons:email"></span>
+                ${intern.email}
+            </a> 
+        </p>
         <p class="school"> School/University: ${intern.school} </p>
     </div>
     </div>
@@ -110,7 +125,7 @@ const generateTeamOverview= function (staffInfo){
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
         <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-        <link rel ="stylesheet" href="./dist/team.css">
+        <link rel ="stylesheet" href="team.css">
         <title> Team Profile Generator </title>
     </head>
 

@@ -5,7 +5,7 @@ const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
 //Function HTML
-const generateHTML = require('./src/index.html');
+const generateHTML = require('./src/generate.js');
 
 //Function Inquirer
 const teamArray =[];
@@ -18,7 +18,7 @@ const teamMngr = () => {
             {
                 // Prompts for manager's name"
                 type: 'input',
-                message: 'Enter team manager name?',
+                message: 'Enter team manager name.',
                 name: 'name',
             },
             {
@@ -30,13 +30,13 @@ const teamMngr = () => {
                 //prompt for manager's email address
             {
                 type: 'input',
-                message: 'Enter manager email address',
+                message: "Enter manager's email address",
                 name: 'email',
             },
                 //prompt for manager's office number
             {
                 type: 'input',
-                message: 'Enter manager office number',
+                message: "Enter manager's office number",
                 name: 'officeNum',
             },
         ])
@@ -46,3 +46,92 @@ const teamMngr = () => {
         teamArray.push(manager);
     })
 }
+
+const addMember = () => {
+    return(
+        inquirer
+        .prompt([
+            {
+            // Add another employee or finish team"
+                type: 'list',
+                message: 'Would you like to add another employee, or finish building your team?',
+                name: 'menu',
+                choices: ['add Engineer', 'add Intern', 'finish building team']
+            },
+            //if select engineer option (name, email, id, and github)
+            {
+                type: 'input',
+                message: "Enter name",
+                name: 'name',
+            },
+            {
+                type: 'input',
+                message: "Enter email",
+                name: 'email',
+            },
+            {
+                type: 'input',
+                message: "Enter employee id",
+                name: 'id',
+            },
+            {
+                type: 'input',
+                message: "Enter engineer's Github username",
+                name: 'username',
+                when: (input) => input.select === "add Engineer",
+            },
+            //if select intern option (name, email, id, and school)
+            {
+                type: 'input',
+                message: "Enter intern's university/school",
+                name: 'school',
+                when: (input) => input.select === "add Intern",
+            },
+            {
+                type: 'list',
+                message: "Would you like to add another employee, or finish building your team?",
+                name: 'menu',
+                choices:['add Engineer', 'add Intern', 'finish building team']
+            },
+        ])
+    )
+    //When select to finish team
+    .then(
+       data => {
+            if (data.menu === 'add Engineer'){
+                const engineer = new Engineer (data.name, data.id, data.email, data.username)
+                teamArray.push(engineer)
+                return addMember();
+            } else if (data.menu === 'add Intern'){
+                const intern = new Intern (data.name, data.id, data.email, data.school)
+                teamArray.push(intern)
+                return addMember();
+            } else return teamArray; 
+        }
+    )
+};
+
+const genFile = promptData => {
+//addMember()
+//.then((promptData) =>{
+//  console.log(promptData);  
+//})
+    fs.writeFile('./dist/index.html', promptData,
+    err => {
+        if (err) {
+            console.log(err);
+        } console.log('Finished. Your team is built!')
+    })
+}
+
+teamMngr()
+.then(addMember)
+.then(teamArray =>{
+    return generateHTML(teamArray);
+})
+.then(html =>{
+    return genFile(html);
+})
+.catch(err => {
+    console.logI(err);
+})

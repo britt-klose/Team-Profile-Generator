@@ -6,6 +6,6 @@ describe ('Engineer', () => {
         expect(engineer.name).toEqual('Brittany Klose')
         expect(engineer.id).toEqual(22)
         expect(engineer.email).toEqual('brittany.klose@yahoo.com')
-        expect(engineer.githubt).toEqual('britt-klose')
+        expect(engineer.github).toEqual('britt-klose')
     })
 })

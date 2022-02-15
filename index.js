@@ -63,19 +63,19 @@ const addMember = () => {
                 type: 'input',
                 message: "Enter name",
                 name: 'name',
-                when: (input) => input.menu === "add Engineer" || input.menu === "add intern",
+                when: (input) => input.menu === "add Engineer" || input.menu === "add Intern",
             },
             {
                 type: 'input',
                 message: "Enter email",
                 name: 'email',
-                when: (input) => input.menu === "add Engineer" || input.menu === "add intern",
+                when: (input) => input.menu === "add Engineer" || input.menu === "add Intern",
             },
             {
                 type: 'input',
                 message: "Enter employee id",
                 name: 'id',
-                when: (input) => input.menu === "add Engineer" || input.menu === "add intern",
+                when: (input) => input.menu === "add Engineer" || input.menu === "add Intern",
             },
             {
                 type: 'input',
@@ -90,12 +90,6 @@ const addMember = () => {
                 name: 'school',
                 when: (input) => input.menu === "add Intern",
             },
-            // {
-            //     type: 'list',
-            //     message: "Would you like to add another employee, or finish building your team?",
-            //     name: 'menu',
-            //     choices:['add Engineer', 'add Intern', 'finish building team']
-            // },
         ])
     )
     //When select to finish team
@@ -131,13 +125,6 @@ const genFile = data => {
 
 teamMngr()
 .then(addMember)
-// .then(teamArray => {
-//     console.log(teamArray)
-//     return generateHTML(teamArray);
-// })
-// .then(htmlFile =>{
-//     return genFile(htmlFile);
-// })
 .catch(err => {
     console.log (err);
 })
